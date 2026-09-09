@@ -1,0 +1,21 @@
+mod controller;
+
+use controller::AppController;
+use sword::prelude::*;
+
+pub struct AppModule;
+
+impl Module for AppModule {
+    fn register_controllers(controllers: &ControllerRegistry) {
+        controllers.register::<AppController>();
+    }
+}
+
+#[sword::main]
+async fn main() {
+    let app = Application::builder()
+        .with_module::<AppModule>()
+        .build();
+
+    app.run().await;
+}

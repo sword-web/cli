@@ -1,0 +1,35 @@
+[package]
+name = "{{ project_name }}"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+sword = { git = "https://github.com/sword-web/sword", branch = "main", features = [{{ sword_features_quoted }}] }
+serde = { version = "1", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }
+thiserror = "2"
+{% if project_type == "grpc" %}
+tonic = "0.14"
+tonic-prost = "0.14"
+prost = "0.14"
+{% endif %}
+{% if db == "redis" %}
+redis = "0.29"
+{% elsif db == "mongodb" %}
+mongodb = "3"
+{% elsif db == "sqlx" %}
+sqlx = { version = "0.8", features = ["runtime-tokio", "macros", "{{ db_flavor }}"] }
+{% endif %}
+{% for addon in addons %}{% if addon == "serde_json" %}serde_json = "1"
+{% elsif addon == "uuid" %}uuid = { version = "1", features = ["v4"] }
+{% elsif addon == "chrono" %}chrono = "0.4"
+{% elsif addon == "jsonwebtoken" %}jsonwebtoken = "9"
+{% elsif addon == "argon2" %}argon2 = "0.5"
+{% elsif addon == "ldap3" %}ldap3 = "0.11"
+{% elsif addon == "bon" %}bon = "3"
+{% elsif addon == "reqwest" %}reqwest = { version = "0.12", features = ["json"] }
+{% endif %}{% endfor %}
+{% if project_type == "grpc" %}
+[build-dependencies]
+tonic-prost-build = "0.14"
+{% endif %}

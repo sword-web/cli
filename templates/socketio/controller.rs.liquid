@@ -1,0 +1,14 @@
+use sword::prelude::*;
+use sword::socketio::*;
+
+#[controller(kind = Controller::SocketIo, namespace = "/")]
+pub struct AppController;
+
+impl AppController {
+    #[on("connection")]
+    async fn on_connect(&self, socket: SocketContext) {
+        socket
+            .emit("welcome", &format!("Welcome to {{ project_name }}!"))
+            .ok();
+    }
+}

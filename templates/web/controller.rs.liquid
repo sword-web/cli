@@ -1,0 +1,12 @@
+use sword::prelude::*;
+use sword::web::*;
+
+#[controller(kind = Controller::Web, path = "/")]
+pub struct AppController;
+
+impl AppController {
+    #[get("/")]
+    async fn hello(&self) -> WebResult {
+        Ok(JsonResponse::Ok().message("Hello from {{ project_name }}!"))
+    }
+}

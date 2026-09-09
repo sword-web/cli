@@ -1,0 +1,15 @@
+use crate::proto::{HelloReply, HelloRequest, HelloServer, Hello};
+use sword::grpc::*;
+use sword::prelude::*;
+
+#[controller(kind = Controller::Grpc, service = HelloServer)]
+pub struct AppController;
+
+#[sword::grpc::async_trait]
+impl Hello for AppController {
+    async fn say_hello(&self, _: Request<HelloRequest>) -> GrpcResult<HelloReply> {
+        Ok(GrpcResponse::message(HelloReply {
+            message: "Hello, {{ project_name }}!".into(),
+        }))
+    }
+}

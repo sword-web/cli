@@ -1,0 +1,14 @@
+[application]
+name = "{{ project_name }}"
+environment = "development"
+
+{% if project_type == "grpc" %}[grpc]
+host = "{{ host }}"
+port = {{ port }}
+{% else %}[web]
+host = "{{ host }}"
+port = {{ port }}
+{% if project_type == "socketio" %}
+[socketio]
+parser = "common"
+{% endif %}{% endif %}
