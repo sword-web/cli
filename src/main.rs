@@ -1,5 +1,7 @@
 pub mod cli;
+pub mod commands;
 pub mod error;
+pub mod types;
 
 use crate::cli::Cli;
 
