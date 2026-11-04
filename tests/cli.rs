@@ -35,7 +35,7 @@ fn new_generates_a_web_project() {
     assert!(root.join("src/controller.rs").is_file());
 
     let manifest = read(root.join("Cargo.toml"));
-    assert!(manifest.contains("rev = \"a29dc3017f0e40de9b6ffd6ac9fa24b6724e1c87\""));
+    assert!(manifest.contains("rev = \"47b6bc2beefad2ad2bc944202ca595fa16db4aea\""));
     assert!(manifest.contains("project-type = \"web\""));
 
     let main = read(root.join("src/main.rs"));

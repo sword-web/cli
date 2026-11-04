@@ -5,7 +5,7 @@ use clap::ValueEnum;
 ///
 /// Generated projects must be reproducible. Until the framework publishes a
 /// version with the current API, the templates point at this exact revision.
-pub const SWORD_REV: &str = "a29dc3017f0e40de9b6ffd6ac9fa24b6724e1c87";
+pub const SWORD_REV: &str = "47b6bc2beefad2ad2bc944202ca595fa16db4aea";
 
 /// Project kind selected for a `new` run.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
