@@ -1,9 +1,9 @@
 [package]
 name = "sword-cli"
-version = "0.1.0"
+version = "0.2.0"
 license = "MIT"
 edition = "2024"
-repository = "https://github.com/sword-framework/cli"
+repository = "https://github.com/sword-web/cli"
 homepage = "https://github.com/sword-web/cli"
 authors = ["Luciano Revillod <lrevillod2022@alu.uct.cl>"]
 description = "A CLI tool to create and manage Sword web framework projects"
@@ -15,14 +15,6 @@ categories = [
 ]
 readme = "README.md"
 
-[[bin]]
-name = "sword"
-path = "src/main.rs"
-
-[[bin]]
-name = "swd"
-path = "src/main.rs"
-
 [dependencies]
 clap = { version = "4.5.51", features = ["derive", "color", "wrap_help"] }
 thiserror = "2.0.17"
@@ -31,3 +23,9 @@ convert_case = "0.8.0"
 cliclack = "0.5.4"
 liquid = "0.26"
 serde = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+assert_cmd = "2"
+predicates = "3"
+tempfile = "3"
+

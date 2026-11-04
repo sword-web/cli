@@ -11,16 +11,23 @@ pub fn apply(plan: &GenerationPlan) -> AppResult<Vec<Utf8PathBuf>> {
     for file in &plan.files {
         let dest = plan.root.join(&file.path);
 
-        if let Some(parent) = dest.parent() {
-            std::fs::create_dir_all(parent)?;
-        }
-
-        std::fs::write(&dest, &file.contents)?;
+        write(&dest, &file.contents)?;
 
         touched.push(dest);
     }
 
     Ok(touched)
+}
+
+/// Writes a single file, creating its parent directories.
+pub fn write(path: &Utf8Path, contents: &str) -> AppResult<()> {
+    if let Some(parent) = path.parent() {
+        std::fs::create_dir_all(parent)?;
+    }
+
+    std::fs::write(path, contents)?;
+
+    Ok(())
 }
 
 /// Initializes a git repository and optionally links a remote.

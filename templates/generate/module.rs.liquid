@@ -1,0 +1,18 @@
+use sword::prelude::*;
+
+// sword:controller-declarations
+// sword:provider-declarations
+
+pub struct {{ module_type }};
+
+impl Module for {{ module_type }} {
+    fn register_controllers(controllers: &ControllerRegistry) {
+        // sword:controllers
+        let _ = controllers;
+    }
+
+    async fn register_providers(_config: &Config, providers: &ProviderRegistry) {
+        // sword:providers
+        let _ = providers;
+    }
+}

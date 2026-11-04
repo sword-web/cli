@@ -7,8 +7,6 @@ pub struct AppController;
 impl AppController {
     #[on("connection")]
     async fn on_connect(&self, socket: SocketContext) {
-        socket
-            .emit("welcome", &format!("Welcome to {{ project_name }}!"))
-            .ok();
+        socket.emit("welcome", &"Welcome to {{ project_name }}!").ok();
     }
 }

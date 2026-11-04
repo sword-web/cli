@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo fmt --all -- --check
+      - run: cargo clippy --workspace --all-targets --all-features -- -D warnings
+      - run: cargo test --workspace --all-features
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+      - run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
+      - run: cargo build
+      - name: Generate and check web project
+        run: |
+          set -e
+          ./target/debug/sword new web_app --type web --yes --no-git
+          cd web_app
+          ../target/debug/sword generate module users
+          ../target/debug/sword generate controller users
+          ../target/debug/sword generate provider database
+          cargo fmt --check
+          cargo clippy --all-targets -- -D warnings
+          cargo check
+          cd ..
+
+      - name: Generate and check Socket.IO project
+        run: |
+          set -e
+          ./target/debug/sword new socket_app --type socketio --yes --no-git
+          cd socket_app
+          ../target/debug/sword generate module chat
+          ../target/debug/sword generate controller chat
+          cargo fmt --check
+          cargo clippy --all-targets -- -D warnings
+          cargo check
+          cd ..
+
+      - name: Generate and check gRPC project
+        run: |
+          set -e
+          ./target/debug/sword new grpc_app --type grpc --yes --no-git
+          cd grpc_app
+          cargo fmt --check
+          cargo clippy --all-targets -- -D warnings
+          cargo check

@@ -1,0 +1,12 @@
+use sword::prelude::*;
+use sword::web::*;
+
+#[controller(kind = Controller::Web, path = "{{ path }}")]
+pub struct {{ controller_type }};
+
+impl {{ controller_type }} {
+    #[get("/")]
+    async fn index(&self) -> WebResult {
+        Ok(JsonResponse::Ok().message("Hello from {{ controller_type }}!"))
+    }
+}

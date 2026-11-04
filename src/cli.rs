@@ -1,3 +1,4 @@
+use crate::commands::generate::GenerateArgs;
 use crate::commands::new::NewArgs;
 
 use clap::{Parser, Subcommand};
@@ -20,5 +21,8 @@ pub struct Cli {
 
 #[derive(Debug, Subcommand)]
 pub enum Command {
+    /// Create a new Sword project.
     New(NewArgs),
+    /// Generate a component inside an existing project.
+    Generate(GenerateArgs),
 }

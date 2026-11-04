@@ -1,4 +1,5 @@
 mod controller;
+// sword:module-declarations
 
 use controller::AppController;
 use sword::prelude::*;
@@ -12,10 +13,13 @@ impl Module for AppModule {
 }
 
 #[sword::main]
-async fn main() {
-    let app = Application::builder()
+async fn main() -> Result<(), Error> {
+    let app = Application::builder()?
         .with_module::<AppModule>()
-        .build();
+        // sword:modules
+        .build()?;
 
-    app.run().await;
+    app.run().await?;
+
+    Ok(())
 }

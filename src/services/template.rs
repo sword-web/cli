@@ -72,9 +72,7 @@ pub fn render_files<S: Serialize>(
     project_type: ProjectType,
     context: &S,
 ) -> Result<Vec<PlannedFile>, CliError> {
-    let parser = ParserBuilder::with_stdlib()
-        .build()
-        .map_err(|err| CliError::render("parse", err.to_string()))?;
+    let parser = parser()?;
 
     let mut planned = Vec::new();
 
@@ -87,6 +85,20 @@ pub fn render_files<S: Serialize>(
     }
 
     Ok(planned)
+}
+
+/// Renders a single template source with the given context.
+pub fn render_source<S: Serialize>(
+    source: &str,
+    context: &S,
+) -> Result<String, CliError> {
+    render(&parser()?, source, context)
+}
+
+fn parser() -> Result<liquid::Parser, CliError> {
+    ParserBuilder::with_stdlib()
+        .build()
+        .map_err(|err| CliError::render("parse", err.to_string()))
 }
 
 fn render<S: Serialize>(

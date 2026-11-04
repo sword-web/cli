@@ -1,3 +1,13 @@
+pub mod generate {
+    mod action;
+    mod args;
+    mod render;
+    mod types;
+
+    pub use action::GenerateAction;
+    pub use args::GenerateArgs;
+}
+
 pub mod new {
     mod action;
     mod args;
@@ -9,6 +19,7 @@ pub mod new {
 }
 
 use crate::cli::Command as CliCommand;
+use crate::commands::generate::GenerateAction;
 use crate::commands::new::NewAction;
 use crate::error::AppResult;
 use camino::Utf8PathBuf;
@@ -24,9 +35,16 @@ impl Command for NewAction {
     }
 }
 
+impl Command for GenerateAction {
+    fn execute(&self) -> AppResult<()> {
+        self.handle()
+    }
+}
+
 /// Resolves the parsed CLI command and runs it.
 pub fn dispatch(command: CliCommand, cwd: Utf8PathBuf) -> AppResult<()> {
     match command {
         CliCommand::New(args) => NewAction::new(args, cwd).execute(),
+        CliCommand::Generate(args) => GenerateAction::new(args, cwd).execute(),
     }
 }
